@@ -8,7 +8,7 @@
 
 require 'faker'
 
-User.create(name: 'Josh', email: 'test@gmail.com')
+User.create(name: 'josh', email: 'test@gmail.com', password: 'test')
 
 List.create(title: 'First List')
 

@@ -8,7 +8,8 @@ class Api::ItemsController < ApiController
 
    def create
      list = List.find(params[:list_id])
-     item = list.items.build(item_params)
+     item = Item.new(item_params)
+     item.list_id = list.id
      if item.save
        render json: item
      else
@@ -26,10 +27,19 @@ class Api::ItemsController < ApiController
      end
    end
 
+   def update
+     item = Item.find(params[:id])
+     if item.update_attributes(item_params)
+       render json: item
+     else
+       render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
+     end
+   end
+
    private
 
    def item_params
-     params.require(:item).permit(:title, :body)
+     params.require(:item).permit(:title, :body, :list_id)
    end
 
  end

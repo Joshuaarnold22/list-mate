@@ -3,7 +3,7 @@ class Api::ItemsController < ApiController
 
    def index
      itmes = Item.all
-     render json: item, each_serializer: ItemSerializer
+     render json: items, each_serializer: ItemSerializer
    end
 
    def create

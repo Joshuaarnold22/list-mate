@@ -43,4 +43,29 @@ class Api::ListsController < ApiController
     params.require(:list).permit(:title, :permissions)
   end
 
+  def authenticated?
+    authenticate_or_request_with_http_basic do |name, password|
+      puts "hello there!!!"
+      user_search = User.where( name: name, password: password)
+      if user_search.present?
+        user = user_search.first
+
+        if user.id != params[:user_id]
+          false
+        end
+
+        if params[:id]
+          list = List.find(params[:id])
+          puts "#{list.user.name} #{user.name}"
+          puts "#{list.user == user}"
+          list.user == user
+        else
+          true
+        end
+      else
+        false
+      end
+    end
+  end
+
 end
